@@ -71,7 +71,7 @@ example :
 slideDown:1000,
 ```
 
-#### slideDown Property
+#### slideUp Property
 slideDown property is a how long alert for sliding up in milisecond. leave it empty for default (500ms). 
 example :
 
