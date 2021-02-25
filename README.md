@@ -72,7 +72,7 @@ slideDown:1000,
 ```
 
 #### slideUp Property
-slideDown property is a how long alert for sliding up in milisecond. leave it empty for default (500ms). 
+slideUp property is a how long alert for sliding up in milisecond. leave it empty for default (500ms). 
 example :
 
 ```
