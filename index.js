@@ -85,6 +85,9 @@ let tblTransAssets = new DataTable('#tblTransAssets', {
     ],
 });
 
+$('#btnReload').on('click',function(){
+  loadTransaksiAsset();
+});
 async function loadTransaksiAsset() {
   const {
     data,
