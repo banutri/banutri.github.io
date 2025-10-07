@@ -1,6 +1,3 @@
-const SUPABASE_URL = "https://qqgupaxqokacqrkunmrr.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZ3VwYXhxb2thY3Fya3VubXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MTQ3ODMsImV4cCI6MjA3NDk5MDc4M30.EmvL78Oh02q-f3KZ2szYpaZrAgVxidvpsR7vtv6NV5o";
-
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let elmLogin = document.getElementById('mLogin');
@@ -10,64 +7,8 @@ elmLogin.addEventListener('shown.bs.modal',function(){
   $('#username').focus();
 });
 
-$('#loginForm').on('submit',function(e){
-  e.preventDefault();
-  let username = $('#username').val().trim();
-  let password = $('#password').val();
 
-  login(username, password);
 
-})
-
-async function login(user, pass) {
-  
-
-  if (!user || !pass) {
-    setStatus("Isi username dan password terlebih dahulu.");
-    return;
-  }
-
-  setStatus("Mencoba login...");
-
-  const {
-    data,
-    error
-  } = await supabase.auth.signInWithPassword({
-    email: user,
-    password: pass
-  });
-
-  if (error) {
-    setStatus("Login gagal: " + error.message);
-    showSession({
-      error: error.message
-    });
-    return;
-  }
-
-  setStatus("Login sukses.");
-  showSession(data.session);
-  console.log("Access token:", data.session.access_token);
-}
-
-function setStatus(t) {
-  // document.getElementById("status").textContent = t;
-  
-  Swal.fire({
-    icon:'info',
-    text:t,
-    timer:3500
-  });
-}
-
-function showSession(obj) {
-  // document.getElementById("sessionOut").textContent = JSON.stringify(obj, null, 2);
-  Swal.fire({
-    icon:'info',
-    text:JSON.stringify(obj, null, 2),
-    timer:3500
-  })
-}
 
 let tblTransAssets = new DataTable('#tblTransAssets', {
     responsive: true,
@@ -88,6 +29,18 @@ let tblTransAssets = new DataTable('#tblTransAssets', {
 $('#btnReload').on('click',function(){
   loadTransaksiAsset();
 });
+
+async function loadMasterAset(){
+  const {data, error} = await supabase.from('master_aset').select('*');
+  if(error){
+    console.error("Error :", error);
+    return;
+  }
+
+  console.log(data);
+  
+}
+
 async function loadTransaksiAsset() {
   const {
     data,
@@ -159,22 +112,48 @@ function loadPage(file) {
 }
 
 // on click nav link
-$(".nav-link").on("click", function () {
-  let link = $(this);
-  let page = link.data("page");
-  let file = "";
+// $(".nav-link").on("click", function () {
+//   let link = $(this);
+//   let page = link.data("page");
+//   let file = "";
 
-  if (page === "report") {
-    file = "pages/report/reportPage.html";
-  } else if (page === "transValue") {
-    file = "pages/transValPage/transValPage.html";
-  }
+//   if (page === "report") {
+//     file = "pages/report/reportPage.html";
+//   } else if (page === "transValue") {
+//     file = "pages/transValPage/transValPage.html";
+//   }
 
-  if (file !== "") {
-    loadPage(file);
-  }
+//   if (file !== "") {
+//     loadPage(file);
+//   }
 
-  $(".nav-link").removeClass("active");
-  link.addClass("active");
+//   $(".nav-link").removeClass("active");
+//   link.addClass("active");
+// });
+
+$('#loginAct').on('click',function(){
+  mLogin.show();
 });
 
+$('#loginForm').on('submit',function(e){
+  e.preventDefault();
+  let username = $('#username').val().trim();
+  let password = $('#password').val();
+
+  let login = login(username, password);
+
+  if(!login){
+    Swal.fire({
+      icon:'error',
+      text:'Login gagal!',
+      timer:3500
+    });
+    return;
+  }
+  Swal.fire({
+      icon:'success',
+      text:'Login berhasil!',
+      timer:3500
+    });
+
+});
