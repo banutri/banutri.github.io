@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-100">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,23 +15,23 @@
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
     
   </head>
-  <body>
+  <body class="h-100">
     <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Our Inventory</a>
+    <a class="navbar-brand" href="#">Inventory</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" data-page="report" href="./pages/report/index.html">Report</a>
+          <a class="nav-link" aria-current="page" data-page="report" href="#report">Report</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" data-page="transValue" >Transaksi Uang</a>
+          <a class="nav-link" href="#transValue" data-page="transValue" >Transaksi Uang</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" data-page="transAssets">Transaksi Aset</a>
+          <a class="nav-link" href="#transAssets" data-page="transAssets">Transaksi Aset</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#!" id="loginAct">Login</a>
@@ -41,8 +41,11 @@
   </div>
 </nav>
 
-    <div class="container-fluid my-3" id="content">
-      <button type="button" id="btnReload" class="btn btn-sm btn-outline-primary">Reload</button>
+    <div class="container-fluid my-3 h-100" id="content">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <h4>Selamat Datang!</h4>
+      </div>
+      <!-- <button type="button" id="btnReload" class="btn btn-sm btn-outline-primary">Reload</button>
       <table class="table" id="tblTransAssets">
         <thead>
           <tr>
@@ -52,7 +55,7 @@
           </tr>
         </thead>
         <tbody></tbody>
-      </table>
+      </table> -->
     </div>
 
 <div class="modal fade" id="mLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mLoginLabel" aria-hidden="true">
@@ -85,6 +88,5 @@
     
   </body>
   <!--  -->
-    <script src="./auth.js"></script>
-    <script src="./index.js"></script>
+    <script src="./assets/index.js"></script>
 </html>
