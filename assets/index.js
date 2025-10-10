@@ -1,12 +1,32 @@
-const SUPABASE_URL = "https://qqgupaxqokacqrkunmrr.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZ3VwYXhxb2thY3Fya3VubXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MTQ3ODMsImV4cCI6MjA3NDk5MDc4M30.EmvL78Oh02q-f3KZ2szYpaZrAgVxidvpsR7vtv6NV5o";
+let elmLogin = document.getElementById('mLogin');
+let mLogin = new bootstrap.Modal(elmLogin);
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+elmLogin.addEventListener('shown.bs.modal',function(){
+  $('#username').focus();
+});
 
+initAuth();
+
+async function initAuth(){
+  let btn = $('#authAct');
+  let cek = await checkLogin();
+
+  if(cek == false){
+    btn.removeClass('btn-outline-danger');
+    btn.addClass('btn-outline-primary');
+    btn.attr('data-act','login');
+    btn.html('Login');
+    mLogin.show();
+  }else if(cek == true){
+    btn.removeClass('btn-outline-primary');
+    btn.addClass('btn-outline-danger');
+    btn.attr('data-act','logout');
+    btn.html('Logout');
+  }
+}
 
 async function checkLogin() {
-      // Cek apakah ada session login aktif
-      const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabase.auth.getSession();
 
       if (!session) {
         return false;
@@ -15,19 +35,13 @@ async function checkLogin() {
       }
 }
 
-async function getCurrUserData(){
-  const {data : {session}} = await supabase.auth.getSession();
-  return session.user;
-}
-
-async function getCurrSession(){
-  const {data : {session}} = await supabase.auth.getSession();
-  return session.user;
-}
-
 async function logout(){
   let { error } = await supabase.auth.signOut();
-  console.log(error);
+  if(error){
+    return false;
+  }else{
+    return true;
+  }
   
 }
 
@@ -55,14 +69,6 @@ async function login(user, pass) {
 
 
 
-let elmLogin = document.getElementById('mLogin');
-let mLogin = new bootstrap.Modal(elmLogin);
-
-elmLogin.addEventListener('shown.bs.modal',function(){
-  $('#username').focus();
-});
-
-
 let currentPage = null;
 let currentModule = null;
 
@@ -88,18 +94,22 @@ async function navigate(page) {
     console.log(`Init ${page}`);
     currentModule.init();
   }
+  console.log('Modul yang diimport:', currentModule);
 
   currentPage = page;
 }
 
 // Routing sederhana
+let page = location.hash.replace('#', '') || 'home';
 window.addEventListener('hashchange', () => {
-  const page = location.hash.replace('#', '') || 'home';
+  page = location.hash.replace('#', '') || 'home';
   navigate(page);
 });
 
 // Muat halaman awal
-navigate('home');
+navigate(page);
+setInterval(() => {
+}, 1000);
 
 
 
@@ -164,22 +174,62 @@ $(".nav-link").on("click", function () {
   link.addClass("active");
 });
 
-$('#loginAct').on('click',function(){
-  let doCheck = checkLogin();
+$('#authAct').on('click', async function(){
+  let btn = $(this);
+  let act = btn.data('act');
+  let doCheck = await checkLogin();
 
-  if(!doCheck){
+  console.log(doCheck, act);
+  
+  if(doCheck == false && act=='login'){
+    console.log('kok gak mau kesini');
+    
     mLogin.show();
-  }else{
+  }else if(doCheck == true && act =='logout'){
+    
+    Swal.fire({
+      title: 'Logout?',
+      text: 'Anda harus login kembali untuk melakukan transaksi!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak',
+      // reverseButtons: true, // Membalik urutan tombol (opsional)
+      customClass: {
+        confirmButton: 'btn btn-sm btn-outline-danger mx-2',
+        cancelButton: 'btn btn-sm btn-outline-secondary mx-2'
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let doLogout = await logout();
+        if(doLogout== false){
+          Swal.fire('Gagal!', 'Gagal Logout', 'error');
+        }else{
+          Swal.fire('Berhasil!', 'Berhasil Logout', 'success');
+          btn.removeClass('btn-outline-danger');
+          btn.addClass('btn-outline-primary');
+          btn.attr('data-act','login');
+          btn.html('Login');
+          window.location.reload();
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Swal.fire('Dibatalkan', 'Tindakan dibatalkan.', 'error');
+      }
+    });
 
   }
 });
 
-$('#loginForm').on('submit',function(e){
+
+
+$('#loginForm').on('submit', async function(e){
   e.preventDefault();
+  let btn = $('#authAct');
+
   let username = $('#username').val().trim();
   let password = $('#password').val();
 
-  let doLogin = login(username, password);
+  let doLogin = await login(username, password);
 
   if(!doLogin){
     Swal.fire({
@@ -194,6 +244,13 @@ $('#loginForm').on('submit',function(e){
       text:'Login berhasil!',
       timer:3500
     });
+
+    btn.removeClass('btn-outline-primary');
+    btn.addClass('btn-outline-danger');
+    btn.attr('data-act','logout');
+    btn.html('Logout');
+    mLogin.hide();
+    window.location.reload();
 
 });
 

@@ -1,1 +1,91 @@
-<h4>Ini halaman trans value</h4>
+<h4 class="text-center">Transaksi Uang Banu dan Indah</h4>
+<div class="card p-2">
+    <div class="card-body p-2">
+        <div class="row g-1 align-items-end mb-2">
+            <div class="col-lg-1 col-md-6 col-sm-12">
+                <button class="btn btn-sm btn-outline-success w-100" id="btnAddTransVal"><i class="bi bi-plus-lg"></i>
+                    Tambah</button>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="input-group">
+                    <span class="input-group-text" id="addon-wrapping">Tipe</span>
+                    <select name="tipeTrans" id="tipeTrans" class="form-select form-select-sm">
+                        <option value="all">Semua</option>
+                        <option value="debit">Debit</option>
+                        <option value="kredit">Kredit</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="input-group">
+                    <span class="input-group-text" id="addon-wrapping">Dari</span>
+                    <input type="date" class="form-control form-control-sm" id="tglStart">
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="input-group">
+                    <span class="input-group-text" id="addon-wrapping">Ke</span>
+                    <input type="date" class="form-control form-control-sm" id="tglEnd">
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <button class="btn btn-sm btn-outline-primary" id="btnReloadData">Load</button>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table" id="tblTransValue">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nama</th>
+                        <th>Tipe</th>
+                        <th>Nilai</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="mTransVal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="mTransValLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="mTransValLabel">Tambah Transaksi</h1>
+                <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" id="transValForm">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
+                            <label class="label" for="inpTipeTrans">Tipe</label>
+                            <select name="tipeTrans" id="inpTipeTrans" class="form-select form-select-sm" required>
+                                <option value="" selected>Pilih</option>
+                                <option value="debit">Debit</option>
+                                <option value="kredit">Kredit</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 mb-2">
+                            <label class="label" for="inpNilai">Jumlah</label>
+                            <input min="1" type="number" id="inpNilai" class="form-control form-control-sm"
+                                placeholder="Masukan Jumlah" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="label" for="inpKet">Keterangan</label>
+                            <textarea class="form-control form-control-sm" name="inpKet" id="inpKet" rows="2" style="resize: none;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="btnSaveTransVal">Simpan</button>
+            </div>
+
+        </div>
+    </div>
+</div>

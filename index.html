@@ -13,6 +13,26 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+    <link rel="stylesheet" href="./assets/index.css">
+    <script>
+      const SUPABASE_URL = "https://qqgupaxqokacqrkunmrr.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxZ3VwYXhxb2thY3Fya3VubXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MTQ3ODMsImV4cCI6MjA3NDk5MDc4M30.EmvL78Oh02q-f3KZ2szYpaZrAgVxidvpsR7vtv6NV5o";
+
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      
+      async function getCurrUserData(){
+        const {data : {session}} = await supabase.auth.getSession();
+        return session.user;
+      }
+
+      async function getCurrSession(){
+        const {data : {session}} = await supabase.auth.getSession();
+        return session.user;
+      }
+
+    </script>
+    <script type="module" src="./assets/index.js"></script>
     
   </head>
   <body class="h-100">
@@ -34,7 +54,7 @@
           <a class="nav-link" href="#transAssets" data-page="transAssets">Transaksi Aset</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#!" id="loginAct">Login</a>
+          <button class="btn btn-sm btn-outline-primary" data-act="login" id="authAct">Login</button>
         </li>
       </ul>
     </div>
@@ -45,17 +65,6 @@
       <div class="d-flex justify-content-center align-items-center h-100">
         <h4>Selamat Datang!</h4>
       </div>
-      <!-- <button type="button" id="btnReload" class="btn btn-sm btn-outline-primary">Reload</button>
-      <table class="table" id="tblTransAssets">
-        <thead>
-          <tr>
-            <th>Kode Barang</th>
-            <th>Tipe</th>
-            <th>Tgl</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table> -->
     </div>
 
 <div class="modal fade" id="mLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="mLoginLabel" aria-hidden="true">
@@ -88,5 +97,5 @@
     
   </body>
   <!--  -->
-    <script src="./assets/index.js"></script>
+    
 </html>

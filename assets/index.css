@@ -1,0 +1,21 @@
+ /* body {
+    font-size: 80% !important;
+ } */
+table {
+    font-size: 85% !important;
+}
+
+
+input {
+    font-size: 75% !important;
+}
+select {
+    font-size: 75% !important;
+}
+.input-group-text{
+    font-size: 75% !important;
+}
+
+.dt-paging-button{
+    font-size: 75% !important;
+}
