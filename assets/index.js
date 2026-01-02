@@ -26,7 +26,7 @@ async function initAuth(){
 }
 
 async function checkLogin() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supbase.auth.getSession();
 
       if (!session) {
         return false;
@@ -36,7 +36,7 @@ async function checkLogin() {
 }
 
 async function logout(){
-  let { error } = await supabase.auth.signOut();
+  let { error } = await supbase.auth.signOut();
   if(error){
     return false;
   }else{
@@ -54,7 +54,7 @@ async function login(user, pass) {
   const {
     data,
     error
-  } = await supabase.auth.signInWithPassword({
+  } = await supbase.auth.signInWithPassword({
     email: user,
     password: pass
   });
@@ -138,7 +138,7 @@ $('#btnReload').on('click',function(){
 });
 
 async function loadMasterAset(){
-  const {data, error} = await supabase.from('master_aset').select('*');
+  const {data, error} = await supbase.from('master_aset').select('*');
   if(error){
     console.error("Error :", error);
     return;
@@ -152,7 +152,7 @@ async function loadTransaksiAsset() {
   const {
     data,
     error
-  } = await supabase
+  } = await supbase
     .from("transaksi_aset")
     .select("*");
 
